@@ -1,0 +1,86 @@
+sampleDict1
+{
+    type            sets;
+    libs            (sampling);
+
+    //writeControl    writeTime;
+    //writeFields     true;
+
+    interpolationScheme cellPoint;
+
+    setFormat raw;
+
+    fields
+    (
+        U
+        k
+    );
+
+    sets
+    (
+        comp1
+        {
+            type        midPoint;
+	    axis        xyz;
+            start       (2.82 1 0);
+            end         (2.82 1 1.02);
+        }
+
+
+        comp2
+        {
+            type        midPoint;
+	    axis        xyz;
+            start       (2.46 1 0);
+            end         (2.46 1 1.02);
+        }
+
+        comp3
+        {
+            type        midPoint;
+	    axis        xyz;
+            start       (2.07 1 0);
+            end         (2.07 1 1.02);
+        }
+
+        comp4
+        {
+            type        midPoint;
+	    axis        xyz;
+            start       (1.69 1 0);
+            end         (1.69 1 1.02);
+        }
+
+        comp5
+        {
+            type        midPoint;
+	    axis        xyz;
+            start       (1.31 1 0);
+            end         (1.31 1 1.02);
+        }
+
+        comp6
+        {
+            type        midPoint;
+	    axis        xyz;
+            start       (0.94 1 0);
+            end         (0.94 1 1.02);
+        }
+
+        comp7
+        {
+            type        midPoint;
+	    axis        xyz;
+            start       (0.56 1 0);
+            end         (0.56 1 1.02);
+        }
+
+        comp8
+        {
+            type        midPoint;
+	    axis        xyz;
+            start       (0.18 1 0);
+            end         (0.18 1 1.02);
+        }
+    );
+}

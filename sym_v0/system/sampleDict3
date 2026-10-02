@@ -1,0 +1,54 @@
+sampleDict3
+{
+    type            sets;
+    libs            (sampling);
+
+    //writeControl    writeTime;
+    //writeFields     true;
+
+    interpolationScheme cellPoint;
+
+    setFormat raw;
+
+    fields
+    (
+        U
+        k
+    );
+
+    sets
+    (
+        z_0.05
+        {
+            type        midPoint;
+	    axis        xyz;
+            start       (0 1 0.051);
+            end         (3.004 1 0.051);
+        }
+
+        z_0.5
+        {
+            type        midPoint;
+	    axis        xyz;
+            start       (0 1 0.51);
+            end         (3.004 1 0.51);
+        }
+
+        z_0.95
+        {
+            type        midPoint;
+	    axis        xyz;
+            start       (0 1 0.969);
+            end         (3.004 1 0.969);
+        }
+
+        z_0.95b
+        {
+            type        midPoint;
+	    axis        xyz;
+            start       (0 1 0.9);
+            end         (3.004 1 0.9);
+        }
+
+    );
+}

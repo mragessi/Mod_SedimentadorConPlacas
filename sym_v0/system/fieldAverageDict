@@ -1,0 +1,81 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2312                                 |
+|   \\  /    A nd           | Web:      www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*-----------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fieldAverageDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// ---------------------------------------------------------------------------
+// Promedio de campos para simpleFoam con residual oscilante (plateau periodico).
+//
+// IMPORTANTE - AJUSTAR ANTES DE CORRER:
+//   timeStart : iteracion donde arranca el plateau (donde el residual deja de
+//               caer y empieza a oscilar). NO usar 0 ni el arranque de la
+//               corrida: contaminaria el promedio con el transitorio inicial.
+//               Definir en base al log de residuales de la corrida nueva.
+//
+// Con esto, el promedio es ACUMULATIVO desde timeStart hasta el final de la
+// corrida (no es una ventana movil). Por eso conviene dejar corriendo bastante
+// mas alla de timeStart: si el periodo de oscilacion es ~10-11 iteraciones,
+// promediar sobre 50-100+ iteraciones (5-10 ciclos o mas) ya elimina el sesgo
+// de fase. Si dejas correr toda la cola del plateau (varios cientos de
+// iteraciones), mejor todavia: mas ciclos promediados, menos ruido.
+// ---------------------------------------------------------------------------
+
+fieldAverage1
+{
+    type            fieldAverage;
+    libs            (fieldFunctionObjects);
+
+    // se ejecuta y actualiza el promedio en cada iteracion
+    executeControl  timeStep;
+    executeInterval 1;
+
+    // escribe el/los campo(s) promedio junto con los campos normales
+    writeControl    writeTime;
+    writeInterval   1;
+
+    timeStart       800;   // <-- reemplazar por la iteracion de inicio del plateau
+    // timeEnd      no hace falta si queres que promedie hasta el final de la corrida
+
+    restartOnRestart false;  // si reiniciás la corrida (p.ej. desde un checkpoint),
+                              // no reinicia el promedio acumulado
+    restartOnOutput  false;
+    periodicRestart  false;
+
+    fields
+    (
+        U
+        {
+            mean         on;   // campo medio: UMean
+            prime2Mean   on;   // tensor de correlaciones (Reynolds stresses): UPrime2Mean
+            base         time; // en simpleFoam "time" = iteracion (pseudo-tiempo)
+        }
+
+        p
+        {
+            mean         on;   // pMean
+            prime2Mean   off;  // no suele hacer falta para p
+            base         time;
+        }
+
+        AoW
+        {
+            mean         on;   // AoWMean, util para el post-proceso de RTD/LMA
+            prime2Mean   off;
+            base         time;
+        }
+    );
+}
+
+// ************************************************************************* //

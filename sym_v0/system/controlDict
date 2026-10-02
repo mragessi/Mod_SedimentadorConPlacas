@@ -1,0 +1,328 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  6
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     simpleFoam;
+
+startFrom       latestTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         20000; // 84s demora un recorredido completo -> 9 veces = 756s 
+
+deltaT          1;
+
+writeControl    timeStep;
+
+writeInterval   1;
+
+purgeWrite      5;
+
+writeFormat     ascii;
+
+writePrecision  10; //6;
+
+writeCompression on;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable yes;
+
+adjustTimeStep  no;
+
+maxCo           0.5; //4;
+
+maxDeltaT       0.1;
+
+
+functions
+{
+
+
+    ageOfWater
+    {
+        type            scalarTransport;
+        libs            ("libsolverFunctionObjects.so");
+        field           AoW;
+
+        enabled         true;
+        writeControl    timeStep;
+        writeInterval   1;
+
+
+        // Difusión molecular (agua)
+        D               1e-9;     // Ajustar según caso
+
+        // Para flujo turbulento
+        nut             nut;
+        // Opcional: si querés controlar Sc_t
+        turbulentSchmidt 0.7;
+
+        fvOptions
+        {
+            unitySource
+            {
+                type            scalarSemiImplicitSource;
+		enabled         true;
+                selectionMode   all;
+                volumeMode      specific;
+
+                sources
+                {
+                    AoW (1 0);
+                }
+            }
+        }
+    }
+
+secondMoment
+{
+    type            scalarTransport;
+    libs            ("libsolverFunctionObjects.so");
+
+    field           AoW2;
+
+        enabled         true;
+        writeControl    timeStep;
+        writeInterval   1;
+
+    D               1e-9;
+    nut             nut;
+    turbulentSchmidt 0.7;
+
+    fvOptions
+    {
+        momentSource
+        {
+            type            scalarCodedSource;
+            active          true;
+	    name            AoW2Source;
+            selectionMode   all;
+
+            fields          (AoW2);
+
+
+    codeAddSup
+    #{
+        const volScalarField& AoW =
+            mesh().lookupObject<volScalarField>("AoW");
+
+        forAll(eqn.source(), celli)
+        {
+            eqn.source()[celli] -=
+                2.0 * AoW[celli] * mesh().V()[celli];
+        }
+    #};
+
+
+    codeCorrect
+    #{
+        // Required by v2312 - leave empty
+    #};
+
+    codeConstrain
+    #{
+        // Required by v2312 - leave empty
+    #};
+
+
+        }
+    }
+}
+
+thirdMoment
+{
+    type            scalarTransport;
+    libs            ("libsolverFunctionObjects.so");
+
+    field           AoW3;
+
+        enabled         true;
+        writeControl    timeStep;
+        writeInterval   1;
+
+    D               1e-9;
+    nut             nut;
+    turbulentSchmidt 0.7;
+
+    fvOptions
+    {
+        momentSource
+        {
+            type            scalarCodedSource;
+            active          true;
+	    name            AoW3Source;
+            selectionMode   all;
+
+            fields          (AoW3);
+
+
+    codeAddSup
+    #{
+        const volScalarField& AoW2 =
+            mesh().lookupObject<volScalarField>("AoW2");
+
+        forAll(eqn.source(), celli)
+        {
+            eqn.source()[celli] -=
+                3.0 * AoW2[celli] * mesh().V()[celli];
+        }
+    #};
+
+
+    codeCorrect
+    #{
+        // Required by v2312 - leave empty
+    #};
+
+    codeConstrain
+    #{
+        // Required by v2312 - leave empty
+    #};
+
+
+        }
+    }
+}
+
+fourthMoment
+{
+    type            scalarTransport;
+    libs            ("libsolverFunctionObjects.so");
+
+    field           AoW4;
+
+        enabled         true;
+        writeControl    timeStep;
+        writeInterval   1;
+
+    D               1e-9;
+    nut             nut;
+    turbulentSchmidt 0.7;
+
+    fvOptions
+    {
+        momentSource
+        {
+            type            scalarCodedSource;
+            active          true;
+	    name            AoW4Source;
+            selectionMode   all;
+
+            fields          (AoW4);
+
+
+    codeAddSup
+    #{
+        const volScalarField& AoW3 =
+            mesh().lookupObject<volScalarField>("AoW3");
+
+        forAll(eqn.source(), celli)
+        {
+            eqn.source()[celli] -=
+                4.0 * AoW3[celli] * mesh().V()[celli];
+        }
+    #};
+
+
+    codeCorrect
+    #{
+        // Required by v2312 - leave empty
+    #};
+
+    codeConstrain
+    #{
+        // Required by v2312 - leave empty
+    #};
+
+
+        }
+    }
+}
+
+fifthMoment
+{
+    type            scalarTransport;
+    libs            ("libsolverFunctionObjects.so");
+
+    field           AoW5;
+
+        enabled         true;
+        writeControl    timeStep;
+        writeInterval   1;
+
+    D               1e-9;
+    nut             nut;
+    turbulentSchmidt 0.7;
+
+    fvOptions
+    {
+        momentSource
+        {
+            type            scalarCodedSource;
+            active          true;
+	    name            AoW5Source;
+            selectionMode   all;
+
+            fields          (AoW5);
+
+
+    codeAddSup
+    #{
+        const volScalarField& AoW4 =
+            mesh().lookupObject<volScalarField>("AoW4");
+
+        forAll(eqn.source(), celli)
+        {
+            eqn.source()[celli] -=
+                5.0 * AoW4[celli] * mesh().V()[celli];
+        }
+    #};
+
+
+    codeCorrect
+    #{
+        // Required by v2312 - leave empty
+    #};
+
+    codeConstrain
+    #{
+        // Required by v2312 - leave empty
+    #};
+
+
+        }
+    }
+}
+
+
+
+
+
+ #include fieldAverageDict
+ //#include sampleDict1
+ //#include sampleDict2
+ //#include sampleDict3
+ //#include sampleDict_AoW
+ //#include sampleDict_Outlet
+
+}
+
+// ************************************************************************* //

@@ -1,0 +1,95 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2312                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    arch        "LSB;label=32;scalar=64";
+    class       polyBoundaryMesh;
+    location    "constant/polyMesh";
+    object      boundary;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+10
+(
+    bottom
+    {
+        type            wall;
+        physicalType    patch;
+        inGroups        1(wall);
+        nFaces          3157;
+        startFace       6070794;
+    }
+    walls
+    {
+        type            wall;
+        physicalType    patch;
+        inGroups        1(wall);
+        nFaces          27998;
+        startFace       6073951;
+    }
+    downWalls
+    {
+        type            wall;
+        physicalType    patch;
+        inGroups        1(wall);
+        nFaces          6808;
+        startFace       6101949;
+    }
+    half
+    {
+        type            symmetry;
+        physicalType    patch;
+        inGroups        1(symmetry);
+        nFaces          29676;
+        startFace       6108757;
+    }
+    upWalls
+    {
+        type            wall;
+        physicalType    patch;
+        inGroups        1(wall);
+        nFaces          5762;
+        startFace       6138433;
+    }
+    top
+    {
+        type            patch;
+        physicalType    patch;
+        nFaces          10320;
+        startFace       6144195;
+    }
+    placaScale_v4
+    {
+        type            wall;
+        inGroups        1(wall);
+        nFaces          151038;
+        startFace       6154515;
+    }
+    inlet
+    {
+        type            patch;
+        nFaces          20;
+        startFace       6305553;
+    }
+    outlet1
+    {
+        type            patch;
+        nFaces          36;
+        startFace       6305573;
+    }
+    outlet2
+    {
+        type            patch;
+        nFaces          72;
+        startFace       6305609;
+    }
+)
+
+// ************************************************************************* //

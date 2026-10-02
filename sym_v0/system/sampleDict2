@@ -1,0 +1,79 @@
+sampleDict2
+{
+    type            sets;
+    libs            (sampling);
+
+    //writeControl    writeTime;
+    //writeFields     true;
+
+    interpolationScheme cellPoint;
+
+    setFormat raw;
+
+    fields
+    (
+        U
+        k
+    );
+
+    sets
+    (
+
+    vol_comp1
+    {
+        type        cellCentre; // Use the cellSet defined in topoSet
+        name        comp1; // Name of the set in constant/polyMesh/sets
+        axis        xyz;     // Options: xyz, distance
+    }
+
+    vol_comp2
+    {
+        type        cellCentre; // Use the cellSet defined in topoSet
+        name        comp2; // Name of the set in constant/polyMesh/sets
+        axis        xyz;     // Options: xyz, distance
+    }
+
+    vol_comp3
+    {
+        type        cellCentre; // Use the cellSet defined in topoSet
+        name        comp3; // Name of the set in constant/polyMesh/sets
+        axis        xyz;     // Options: xyz, distance
+    }
+
+    vol_comp4
+    {
+        type        cellCentre; // Use the cellSet defined in topoSet
+        name        comp4; // Name of the set in constant/polyMesh/sets
+        axis        xyz;     // Options: xyz, distance
+    }
+
+    vol_comp5
+    {
+        type        cellCentre; // Use the cellSet defined in topoSet
+        name        comp5; // Name of the set in constant/polyMesh/sets
+        axis        xyz;     // Options: xyz, distance
+    }
+
+    vol_comp6
+    {
+        type        cellCentre; // Use the cellSet defined in topoSet
+        name        comp6; // Name of the set in constant/polyMesh/sets
+        axis        xyz;     // Options: xyz, distance
+    }
+
+    vol_comp7
+    {
+        type        cellCentre; // Use the cellSet defined in topoSet
+        name        comp7; // Name of the set in constant/polyMesh/sets
+        axis        xyz;     // Options: xyz, distance
+    }
+
+    vol_comp8
+    {
+        type        cellCentre; // Use the cellSet defined in topoSet
+        name        comp8; // Name of the set in constant/polyMesh/sets
+        axis        xyz;     // Options: xyz, distance
+    }
+
+    );
+}

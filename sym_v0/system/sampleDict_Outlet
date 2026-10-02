@@ -1,0 +1,28 @@
+sampleDict_Outlet
+{
+type surfaces;
+
+libs ("libsampling.so");
+
+writeControl timeStep;
+writeInterval 1;
+
+surfaceFormat raw;
+
+fields
+(
+    AoW
+    AoW2
+    U
+    Sf
+);
+
+surfaces
+(
+    outletPatch
+    {
+        type patch;
+        patches (outlet);
+    }
+);
+}
